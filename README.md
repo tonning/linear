@@ -11,7 +11,7 @@ SDK for Linear.app API
 You can install the package via composer:
 
 ```bash
-composer require tonning/linear-api
+composer require tonning/linear
 ```
 
 ## Usage
