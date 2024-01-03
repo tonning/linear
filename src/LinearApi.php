@@ -11,9 +11,9 @@ class LinearApi extends Connector
 {
 //    use AlwaysThrowOnErrors;
 
-    public function __construct(string $apiToken)
+    public function __construct(string $apiToken, bool $personalToken = false)
     {
-        $this->withTokenAuth($apiToken);
+        $this->withTokenAuth($apiToken, $personalToken ? '' : 'Bearer');
     }
 
     public function resolveBaseUrl(): string
