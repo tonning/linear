@@ -27,18 +27,6 @@ class GetAttachmentsBySourceRequest extends Request implements HasBody
             }
             QUERY;
 
-        \Log::debug([
-            'query' => $query,
-            'variables' => [
-                'issueId' => $this->issueId,
-                'filter' => [
-                    'sourceType' => [
-                        'eq' => $this->sourceType
-                    ]
-                ],
-            ]
-        ]);
-
         return [
             'query' => $query,
             'variables' => [

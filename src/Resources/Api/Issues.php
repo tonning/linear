@@ -14,6 +14,7 @@ use Tonning\Linear\Requests\Issues\GetAttachmentsRequest;
 use Tonning\Linear\Requests\Issues\UpdateLabelsRequest;
 use Tonning\Linear\Requests\Issues\CreateIssueRequest;
 use Tonning\Linear\Resources\Response\Issue;
+use Tonning\Linear\Requests\Issues\GetAttachmentsBySourceRequest;
 
 class Issues extends ApiResource
 {
@@ -92,6 +93,19 @@ class Issues extends ApiResource
     public function getAttachments(string $issueId, string $attachmentTitle, string|array|null $returnNodes = null)
     {
         $request = new GetAttachmentsRequest($issueId, $attachmentTitle);
+
+        $request->return($returnNodes ?: ['url', 'id', 'title', 'subtitle', 'metadata']);
+
+        $response = $this->api->send($request);
+
+        $this->validate($response);
+
+        return $response->json('data.issue.attachments.nodes');
+    }
+
+    public function getAttachmentsBySource(string $issueId, string $source, string|array|null $returnNodes = null)
+    {
+        $request = new GetAttachmentsBySourceRequest($issueId, $source);
 
         $request->return($returnNodes ?: ['url', 'id', 'title', 'subtitle', 'metadata']);
 
