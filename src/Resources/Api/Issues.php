@@ -4,9 +4,9 @@ namespace Tonning\Linear\Resources\Api;
 
 use JsonException;
 use ReflectionException;
+use Illuminate\Support\Arr;
 use Saloon\Exceptions\InvalidResponseClassException;
 use Saloon\Exceptions\PendingRequestException;
-use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 use Throwable;
 use Tonning\Linear\Requests\Issues\AddAttachmentLinkUrlRequest;
 use Tonning\Linear\Requests\Issues\CreateAttachmentRequest;
@@ -15,6 +15,7 @@ use Tonning\Linear\Requests\Issues\UpdateLabelsRequest;
 use Tonning\Linear\Requests\Issues\CreateIssueRequest;
 use Tonning\Linear\Resources\Response\Issue;
 use Tonning\Linear\Requests\Issues\GetAttachmentsBySourceRequest;
+use Tonning\Linear\Requests\Issues\GetIssuesByAttachmentUrlRequest;
 
 class Issues extends ApiResource
 {
@@ -114,5 +115,18 @@ class Issues extends ApiResource
         $this->validate($response);
 
         return $response->json('data.issue.attachments.nodes');
+    }
+
+    public function getIssuesByAttachmentUrl(string $url, string|array|null $returnNodes = null)
+    {
+        $request = new GetIssuesByAttachmentUrlRequest($url);
+
+        $request->return(['issue' => Arr::wrap($returnNodes ?: 'identifier')]);
+
+        $response = $this->api->send($request);
+
+        $this->validate($response);
+
+        return $response->json('data.attachmentsForURL.nodes');
     }
 }
