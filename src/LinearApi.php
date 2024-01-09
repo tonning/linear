@@ -18,7 +18,7 @@ class LinearApi extends Connector
 
     public function resolveBaseUrl(): string
     {
-        return 'https://api.linear.app/graphql';
+        return env('LINEAR_BASE_API_URL', 'https://api.linear.app/graphql');
     }
 
     protected function defaultHeaders(): array
